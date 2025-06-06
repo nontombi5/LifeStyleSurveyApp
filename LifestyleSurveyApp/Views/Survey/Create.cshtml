@@ -1,0 +1,167 @@
+﻿@model Survey
+
+
+<div class="survey-container">
+  
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+
+    <form asp-action="Create" asp-controller="Survey" method="post">
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label fw-bold">Personal Details :</label>
+            <div class="col-sm-9">
+         <div class="form-group mb-2">
+            <label asp-for="FullName">Full Names</label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+               
+        <div class="form-group mb-2">
+           <label asp-for="Email">Email</label>
+           <input asp-for="Email" class="form-control" />
+           <span asp-validation-for="Email" class="text-danger"></span>
+         </div>
+
+         <div class="form-group mb-2">
+            <label asp-for="DateOfBirth">Date of Birth</label>
+            <input asp-for="DateOfBirth" class="form-control" type="date" />
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
+
+               
+        <div class="form-group mb-2">
+            <label asp-for="ContactNumber">Contact Number</label>
+            <input asp-for="ContactNumber" class="form-control" />
+            <span asp-validation-for="ContactNumber" class="text-danger"></span>
+        </div>
+        </div>
+      </div>
+
+        
+      <div class="row mb-3">
+            <label class="col-sm-3 col-form-label fw-bold">What is your favorite food?</label>
+            <div class="col-sm-9 d-flex flex-wrap align-items-center gap-4">
+
+            <div class="form-check form-check-inline">
+                <input asp-for="Pizza" class="form-check-input" type="checkbox" />
+                <label class="form-check-label" for="Pizza">Pizza</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input asp-for="Pasta" class="form-check-input" type="checkbox" />
+                <label class="form-check-label" for="Pasta">Pasta</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input asp-for="PapAndWors" class="form-check-input" type="checkbox" />
+                <label class="form-check-label" for="PapAndWors">Pap and Wors</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input asp-for="Other" class="form-check-input" type="checkbox" />
+                <label class="form-check-label" for="Other">Other</label>
+            </div>
+        </div>
+     </div>
+
+        @{
+            bool ratingError =
+            ViewData.ModelState["WatchMovies"]?.Errors.Count > 0 ||
+            ViewData.ModelState["ListenToRadio"]?.Errors.Count > 0 ||
+            ViewData.ModelState["EatOut"]?.Errors.Count > 0 ||
+            ViewData.ModelState["WatchTV"]?.Errors.Count > 0;
+        }
+
+        <h3>Please rate your level of agreement on a scale from 1 to 5, with 1 being "Strongly Agree" and 5 being "Strongly Disagree"</h3>
+
+        @if (ratingError)
+        {
+            <div class="alert alert-danger">
+                All rating questions are required.
+            </div>
+        }
+
+        <table class="table table-bordered text-center align-middle">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Strongly Agree</th>
+                    <th>Agree</th>
+                    <th>Neutral</th>
+                    <th>Disagree</th>
+                    <th>Strongly Disagree</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-start">I like to watch movies</td>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <td>
+                            <input type="radio" name="WatchMovies" value="@i" class="form-check-input" />
+                        </td>
+                    }
+                </tr>
+
+                <tr>
+                    <td class="text-start">I like to listen to radio</td>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <td>
+                            <input type="radio" name="ListenToRadio" value="@i" class="form-check-input" />
+                        </td>
+                    }
+                </tr>
+
+                <tr>
+                    <td class="text-start">I like to eat out</td>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <td>
+                            <input type="radio" name="EatOut" value="@i" class="form-check-input" />
+                        </td>
+                    }
+                </tr>
+
+                <tr>
+                    <td class="text-start">I like to watch TV</td>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <td>
+                            <input type="radio" name="WatchTV" value="@i" class="form-check-input" />
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+
+        @foreach (var prop in new[] { "WatchMovies", "ListenToRadio", "EatOut", "WatchTV" })
+        {
+            <span asp-validation-for="@prop" class="text-danger"></span><br />
+        }
+
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        // Auto-hide alert after 5 seconds
+        setTimeout(function () {
+            const alertBox = document.querySelector('.alert-danger');
+            if (alertBox) {
+                alertBox.style.transition = "opacity 0.5s ease-out";
+                alertBox.style.opacity = 0;
+                setTimeout(() => alertBox.remove(), 500);
+            }
+        }, 5000);
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

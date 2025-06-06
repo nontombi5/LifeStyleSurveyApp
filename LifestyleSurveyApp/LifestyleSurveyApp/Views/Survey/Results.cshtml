@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Survey Results";
+    var results = ViewData.Model;
+}
+
+<style>
+    .results-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #ccc;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .results-header {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: black;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .result-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+
+    .result-label {
+        font-weight: 500;
+    }
+
+    .result-value {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .alert-info {
+        text-align: center;
+        font-size: 1.1rem;
+    }
+</style>
+
+<div class="results-container">
+    <div class="results-header">Survey Results</div>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info">@ViewBag.Message</div>
+    }
+    else
+    {
+        <!-- Demographic Section -->
+        <div class="section">
+            <div class="result-item">
+                <span class="result-label">Total number of survey:</span>
+                <span class="result-value">@results.TotalNoSurvey</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Average Age:</span>
+                <span class="result-value">@results.ParticipatedAverageAge</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Oldest person who participated in survey:</span>
+                <span class="result-value">@results.OldestParticipant</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Youngest person who participated in survey:</span>
+                <span class="result-value">@results.YoungestParticipant</span>
+            </div>
+        </div>
+
+        <!-- Food Preferences Section -->
+        <div class="section">
+            <div class="result-item">
+                <span class="result-label">Percentage of people Who Like Pizza:</span>
+                <span class="result-value">@results.PizzaPercentage</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Percentage of people Who Like Pasta:</span>
+                <span class="result-value">@results.PastaPercentage</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Percentage of people Who Like Papa and Wors:</span>
+                <span class="result-value">@results.PapaAndWorsePercentage</span>
+            </div>
+        </div>
+
+        <!-- Lifestyle Ratings Section -->
+        <div class="section">
+            <div class="result-item">
+                <span class="result-label">People who like to watch movies:</span>
+                <span class="result-value">@results.AverageWatchMovies</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">People who like to listen radio:</span>
+                <span class="result-value">@results.AvarageListenToRadio</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">People who like to eat out:</span>
+                <span class="result-value">@results.AverageEatOut</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">People who like to watch Tv:</span>
+                <span class="result-value">@results.AvarageWatchTV</span>
+            </div>
+        </div>
+    }
+</div>
